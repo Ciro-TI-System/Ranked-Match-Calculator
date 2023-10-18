@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Calculadora de Partidas Rankeadas</title>
+    <style>
+      body {
+        background-image: url("assets/hd-video-game-halo-fnqqitkdh2nf8hfa.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .container {
+        text-align: center;
+      }
+      h1 {
+        font-size: 2em;
+        color: azure;
+      }
+      label {
+        font-size: 1.2em;
+        color: azure;
+      }
+      input,
+      button {
+        font-size: 1.2em;
+      }
+      p {
+        font-size: 1.5em;
+        line-height: 1.6;
+        color: azure;
+      }
+      .Ferro {
+        color: #b87333;
+      }
+      .Bronze {
+        color: #cd7f32;
+      }
+      .Prata {
+        color: #c0c0c0;
+      }
+      .Ouro {
+        color: #ffd700;
+      }
+      .Diamante {
+        color: #b9f2ff;
+      }
+      .Lendário {
+        color: #e5e4e2;
+      }
+      .Imortal {
+        color: #50c878;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Calculadora de Partidas Rankeadas</h1>
+
+      <label for="vitorias">Vitórias:</label><br />
+      <input type="number" id="vitorias" name="vitorias" min="0" /><br />
+      <label for="derrotas">Derrotas:</label><br />
+      <input type="number" id="derrotas" name="derrotas" min="0" /><br /><br />
+
+      <button onclick="calcular()">Calcular</button>
+      <button onclick="limparCampos()">Limpar</button>
+
+      <p id="resultado"></p>
+    </div>
+
+    <script>
+      function calcular() {
+        var vitorias = obterValorDoCampo("vitorias");
+        var derrotas = obterValorDoCampo("derrotas");
+
+        if (valoresSaoInvalidos(vitorias, derrotas)) {
+          exibirMensagemDeErro("Por favor, insira valores válidos.");
+          return;
+        }
+
+        var saldoVitorias = calcularSaldoDeVitorias(vitorias, derrotas);
+        var nivel = determinarNivel(saldoVitorias);
+
+        exibirResultado(saldoVitorias, nivel);
+      }
+
+      function obterValorDoCampo(idDoCampo) {
+        return document.getElementById(idDoCampo).value;
+      }
+
+      function valoresSaoInvalidos(vitorias, derrotas) {
+        return (
+          vitorias === "" || derrotas === "" || vitorias < 0 || derrotas < 0
+        );
+      }
+
+      function exibirMensagemDeErro(mensagem) {
+        alert(mensagem);
+      }
+
+      function calcularSaldoDeVitorias(vitorias, derrotas) {
+        return vitorias - derrotas;
+      }
+
+      function determinarNivel(saldoVitorias) {
+        if (saldoVitorias < 10) {
+          return "Ferro";
+        } else if (saldoVitorias >= 11 && saldoVitorias <= 20) {
+          return "Bronze";
+        } else if (saldoVitorias >= 21 && saldoVitorias <= 50) {
+          return "Prata";
+        } else if (saldoVitorias >= 51 && saldoVitorias <= 80) {
+          return "Ouro";
+        } else if (saldoVitorias >= 81 && saldoVitorias <= 90) {
+          return "Diamante";
+        } else if (saldoVitorias >= 91 && saldoVitorias <= 100) {
+          return "Lendário";
+        } else if (saldoVitorias >= 101) {
+          return "Imortal";
+        }
+      }
+
+      function exibirResultado(saldoVitorias, nivel) {
+        document.getElementById("resultado").innerHTML =
+          "O Herói tem de saldo de " +
+          saldoVitorias +
+          " está no nível de <span class='" +
+          nivel +
+          "'>" +
+          nivel +
+          "</span>";
+      }
+
+      function limparCampos() {
+        limparCampo("vitorias");
+        limparCampo("derrotas");
+        limparCampo("resultado");
+      }
+
+      function limparCampo(idDoCampo) {
+        document.getElementById(idDoCampo).innerText = "";
+      }
+    </script>
+  </body>
+</html>
